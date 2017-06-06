@@ -6,7 +6,19 @@ var port = process.env.PORT || 8080;
 
 function gatherData(ipAddress, lang, operSystem)
 {
-  return { ipaddress: JSON.parse(ipAddress), language: JSON.parse(lang) , software: JSON.parse(operSystem) };
+  if(ipAddress != undefined)
+  {
+    var ip = ipAddress;
+  }
+  if(lang != undefined)
+  {
+    var language = lang;
+  }
+  if(operSystem != undefined)
+  {
+    var operationSystem = operSystem;
+  }
+  return { ipaddress: JSON.parse(ip), language: JSON.parse(language) , software: JSON.parse(operationSystem) };
 }
 
 function getIpAddress (interfaces)
