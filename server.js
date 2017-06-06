@@ -4,9 +4,9 @@ const os = require('os');
 
 var port = process.env.PORT || 8080;
 
-function gatherData(ipAddress, language, operSystem)
+function gatherData(ipAddress, lang, operSystem)
 {
-  return { ipaddress: JSON.parse(ipAddress), language: JSON.parse(language) , software: JSON.parse(operSystem) };
+  return { ipaddress: JSON.parse(ipAddress), language: JSON.parse(lang) , software: JSON.parse(operSystem) };
 }
 
 function getIpAddress (interfaces)
@@ -40,5 +40,5 @@ app.get('/', function (req, res) {
 });
 
 app.listen(port, function () {
-  console.log('Example app listening on port 8080!');
+  console.log('Node app is running on port ' + port);
 });
