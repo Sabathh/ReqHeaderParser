@@ -1,8 +1,6 @@
 const express = require('express');
 const app = express();
 const os = require('os');
-const locale = require('locale')
-//const platform = require('platform');
 
 var port = process.env.PORT || 8080;
 
@@ -33,8 +31,6 @@ app.get('/', function (req, res) {
   var interfaces = os.networkInterfaces();
   
   var ipAddress = getIpAddress(interfaces);
-  
-  //var lang = JSON.stringify(req.headers["accept-language"]);
   
   var language = JSON.stringify(process.env.LANG);
   
