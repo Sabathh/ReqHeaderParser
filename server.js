@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const os = require('os');
 
 var port = process.env.PORT || 8080;
 
@@ -22,35 +21,20 @@ function gatherData(ipAddress, lang, operSystem)
   {
     operationSystem = operSystem;
   }
+  
   return { ipaddress: JSON.parse(ip), language: JSON.parse(language) , software: JSON.parse(operationSystem) };
-}
-
-function getIpAddress (interfaces)
-{
-  var addresses = [];
-  for (var k in interfaces) {
-    for (var k2 in interfaces[k]) {
-        var address = interfaces[k][k2];
-        if (address.family === 'IPv4' && !address.internal) {
-            addresses.push(address.address);
-        }
-    }
-  }
-            
-  return (JSON.stringify(addresses));
 }
 
 app.get('/', function (req, res) {
   
-  res.header("Content-Type", "text/plain");
+  var ipAddress = JSON.stringify(req.headers['x-forwarded-for']|| 
+                  req.connection.remoteAddress || 
+                  req.socket.remoteAddress ||
+                  req.connection.socket.remoteAddress);
   
-  var interfaces = os.networkInterfaces();
+  var language = JSON.stringify(req.headers["accept-language"].split(',')[0]);
   
-  var ipAddress = getIpAddress(interfaces);
-  
-  var language = JSON.stringify(process.env.LANG);
-  
-  var software = JSON.stringify(os.type() + '; ' + os.release() + '; ' + os.arch());
+  var software = JSON.stringify(req.headers['user-agent'].split(') ')[0].split(' (')[1]);
   
   res.send(gatherData(ipAddress,language,software));
 });
